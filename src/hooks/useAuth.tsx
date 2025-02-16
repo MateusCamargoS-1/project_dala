@@ -2,32 +2,33 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
 export function useAuth() {
-  const [user, setUser] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+    const [user, setUser] = useState<any>(null)
+    const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data, error } = await supabase.auth.getUser()
+    useEffect(() => {
+        const fetchUser = async () => {
+            const { data, error } = await supabase.auth.getUser()
 
-      if (error) {
-        console.error('Erro ao obter usuário:', error.message)
-      }
+            if (error) {
+                console.error('Erro ao obter usuário:', error.message)
+            }
 
-      setUser(data?.user || null)
-      setLoading(false)
-    }
+            setUser(data?.user || null)
+            setLoading(false)
+        }
 
-    fetchUser()
+        fetchUser()
 
-    // Monitorar mudanças na autenticação
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user || null)
-    })
+        // Monitorar mudanças na autenticação
+        const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+            console.log(event);
+            setUser(session?.user || null)
+        })
 
-    return () => {
-      authListener.subscription.unsubscribe()
-    }
-  }, [])
+        return () => {
+            authListener.subscription.unsubscribe()
+        }
+    }, [])
 
-  return { user, loading }
+    return { user, loading }
 }

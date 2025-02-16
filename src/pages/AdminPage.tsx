@@ -149,7 +149,7 @@ export default function AdminPage() {
                   <td className="border p-2">{product.is_on_sale ? "Sim" : "Não"}</td>
                   <td className="border p-2">
                     <button onClick={() => handleEditProduct(product)}>✏️</button>
-                    <button onClick={() => setConfirmDelete(product.id)}>🗑️</button>
+                    <button onClick={() => handleDeleteProduct(product.id)}>🗑️</button>
                   </td>
                 </tr>
               ))}
