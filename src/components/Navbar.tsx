@@ -9,15 +9,13 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white shadow-md fixed top-0 left-0 w-full z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
           <Link to="/" className="text-2xl font-bold text-primary-600">
             DALAROSA
           </Link>
 
-          {/* Menu normal (Desktop) */}
           <div className="hidden md:flex items-center space-x-6">
             <Link to="/products" className="text-gray-700 hover:text-primary-600">
               Produtos
@@ -40,8 +38,6 @@ export function Navbar() {
               )}
             </Link>
           </div>
-
-          {/* Ícone do menu (Mobile) */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden relative p-2 text-gray-700 hover:text-primary-600"
@@ -56,7 +52,6 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Menu Mobile */}
       {isOpen && (
         <div className="md:hidden bg-white border-t border-gray-200">
           <div className="px-4 py-2 space-y-2">

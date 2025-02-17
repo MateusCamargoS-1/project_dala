@@ -19,9 +19,8 @@ export function useAuth() {
 
         fetchUser()
 
-        // Monitorar mudanças na autenticação
         const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-            console.log(event);
+            sessionStorage.setItem("session", event);
             setUser(session?.user || null)
         })
 

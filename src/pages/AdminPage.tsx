@@ -108,7 +108,7 @@ export default function AdminPage() {
   if (loading) return <div className="text-center py-10">Carregando...</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-16">
       <h1 className="text-3xl font-bold mb-8">Painel Administrativo</h1>
 
       <div className="mb-8">
@@ -142,7 +142,7 @@ export default function AdminPage() {
             </thead>
             <tbody>
               {products.map((product) => (
-                <tr key={product.id}>
+                <tr key={product.id} className="text-center">
                   <td className="border p-2">{product.name}</td>
                   <td className="border p-2">R$ {product.price.toFixed(2)}</td>
                   <td className="border p-2">{product.stock}</td>
@@ -160,7 +160,6 @@ export default function AdminPage() {
         <table className="min-w-full border border-gray-300">
           <thead className="bg-gray-100">
             <tr>
-              <th className="border p-2">ID</th>
               <th className="border p-2">Cliente</th>
               <th className="border p-2">Total</th>
               <th className="border p-2">Status</th>
@@ -169,8 +168,7 @@ export default function AdminPage() {
           </thead>
           <tbody>
             {orders.map((order) => (
-              <tr key={order.id}>
-                <td className="border p-2">{order.id}</td>
+              <tr key={order.id} className="text-center">
                 <td className="border p-2">{order.customer_name}</td>
                 <td className="border p-2">R$ {order.total.toFixed(2)}</td>
                 <td className="border p-2">{order.status}</td>
@@ -189,7 +187,6 @@ export default function AdminPage() {
             </h2>
             <form onSubmit={handleAddOrUpdateProduct} className="flex flex-col gap-4">
 
-              {/* Nome */}
               <input
                 type="text"
                 value={newProduct.name}
@@ -199,7 +196,6 @@ export default function AdminPage() {
                 className="border p-2 rounded"
               />
 
-              {/* Descrição */}
               <textarea
                 value={newProduct.description}
                 onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
@@ -207,7 +203,6 @@ export default function AdminPage() {
                 className="border p-2 rounded"
               />
 
-              {/* Preço */}
               <input
                 type="number"
                 value={newProduct.price}
@@ -217,7 +212,6 @@ export default function AdminPage() {
                 className="border p-2 rounded"
               />
 
-              {/* Estoque */}
               <input
                 type="number"
                 value={newProduct.stock}
@@ -227,7 +221,6 @@ export default function AdminPage() {
                 className="border p-2 rounded"
               />
 
-              {/* URL da Imagem */}
               <input
                 type="text"
                 value={newProduct.image_url}
@@ -236,7 +229,6 @@ export default function AdminPage() {
                 className="border p-2 rounded"
               />
 
-              {/* Categoria */}
               <select
                 value={newProduct.category}
                 onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
@@ -247,7 +239,6 @@ export default function AdminPage() {
                 ))}
               </select>
 
-              {/* Unidade */}
               <select
                 value={newProduct.unit}
                 onChange={(e) => setNewProduct({ ...newProduct, unit: e.target.value })}
@@ -258,7 +249,6 @@ export default function AdminPage() {
                 ))}
               </select>
 
-              {/* Está em promoção? */}
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -268,7 +258,6 @@ export default function AdminPage() {
                 Está em promoção?
               </label>
 
-              {/* Preço Promocional (só aparece se estiver em promoção) */}
               {newProduct.is_on_sale && (
                 <input
                   type="number"
@@ -280,7 +269,6 @@ export default function AdminPage() {
                 />
               )}
 
-              {/* Botões */}
               <div className="flex justify-between">
                 <button type="button" onClick={() => setShowModal(false)} className="bg-gray-400 text-white px-4 py-2 rounded">
                   Cancelar

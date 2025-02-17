@@ -26,7 +26,7 @@ export function ProductsPage() {
   async function loadProducts() {
     setLoading(true)
     let query = supabase.from('products').select('*')
-    
+    console.log(query);
     if (selectedCategory !== 'all') {
       query = query.eq('category', selectedCategory)
     }
@@ -61,7 +61,7 @@ export function ProductsPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-16">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-6">
           {selectedCategory === 'all' ? 'Todos os Produtos' : selectedCategory}
