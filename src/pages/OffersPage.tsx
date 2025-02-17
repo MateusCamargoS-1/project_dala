@@ -9,12 +9,11 @@ export function OffersPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("Todos");
   const [sortOrder, setSortOrder] = useState<string>("asc");
   const addToCart = useCartStore((state) => state.addToCart);
+  
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const { data, error } = await supabase
-        .from("products")
-        .select("category");
+      const { data, error } = await supabase.from("products").select("category");
 
       if (error) {
         toast.error("Erro ao carregar categorias");
@@ -45,13 +44,14 @@ export function OffersPage() {
     fetchProducts();
   }, []);
 
-  const filteredProducts = selectedCategory === "Todos"
-    ? products
-    : products.filter((product) => product.category === selectedCategory);
+  const filteredProducts =
+    selectedCategory === "Todos"
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
 
-  const sortedProducts = filteredProducts.sort((a, b) => {
-    return sortOrder === "asc" ? a.price - b.price : b.price - a.price;
-  });
+  const sortedProducts = filteredProducts.sort((a, b) =>
+    sortOrder === "asc" ? a.price - b.price : b.price - a.price
+  );
 
   const handleAddToCart = (product: any) => {
     addToCart({
@@ -79,28 +79,32 @@ export function OffersPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-16">
       <h1 className="text-3xl font-bold mb-8">Ofertas Especiais</h1>
 
-      <div className="mb-6 flex gap-4">
-        <div>
-          <label htmlFor="category" className="text-sm font-medium">Categoria</label>
-          <select
-            id="category"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="input mt-1"
-          >
-            {categories.map((category, index) => (
-              <option key={index} value={category}>{category}</option>
-            ))}
-          </select>
+      <div className="overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 mb-6">
+        <div className="flex gap-4">
+          {categories.map((category, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedCategory(category)}
+              className={`px-4 py-2 rounded-md flex-shrink-0 ${
+                selectedCategory === category
+                  ? "bg-primary-600 text-white"
+                  : "bg-gray-100 hover:bg-gray-200"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
         </div>
+      </div>
 
+      <div className="mb-6 flex flex-wrap gap-4">
         <div>
           <label htmlFor="sortOrder" className="text-sm font-medium">Ordenar por Preço</label>
           <select
             id="sortOrder"
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="input mt-1"
+            className="px-4 py-2 rounded-md border border-gray-300"
           >
             <option value="asc">Preço: Menor para Maior</option>
             <option value="desc">Preço: Maior para Menor</option>
@@ -118,7 +122,11 @@ export function OffersPage() {
             />
             <div>
               <h3 className="font-semibold text-lg">{product.name}</h3>
-              <p className="text-gray-600">R$ {product.price.toFixed(2)}</p>
+              <p className="text-gray-600">
+                <span className="text-primary-600 font-bold">
+                  R$ {product.price.toFixed(2)}
+                </span>
+              </p>
               <button
                 onClick={() => handleAddToCart(product)}
                 className="btn-primary w-full py-2 mt-4"

@@ -1,12 +1,16 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import useCartStore from '../stores/cartStore'
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  ShoppingCartIcon,
+  Bars3Icon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import useCartStore from "../stores/cartStore";
 
 export function Navbar() {
-  const cartItems = useCartStore((state) => state.items)
-  const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0)
-  const [isOpen, setIsOpen] = useState(false)
+  const cartItems = useCartStore((state) => state.items);
+  const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="bg-white shadow-md fixed top-0 left-0 w-full z-10">
@@ -17,16 +21,28 @@ export function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center space-x-6">
-            <Link to="/products" className="text-gray-700 hover:text-primary-600">
+            <Link
+              to="/products"
+              className="text-gray-700 hover:text-primary-600"
+            >
               Produtos
             </Link>
             <Link to="/offers" className="text-gray-700 hover:text-primary-600">
               Ofertas
             </Link>
+            <Link
+              to="/butchery"
+              className="text-gray-700 hover:text-primary-600"
+            >
+              Açougue
+            </Link>
             <Link to="/about" className="text-gray-700 hover:text-primary-600">
               Sobre
             </Link>
-            <Link to="/contact" className="text-gray-700 hover:text-primary-600">
+            <Link
+              to="/contact"
+              className="text-gray-700 hover:text-primary-600"
+            >
               Contato
             </Link>
             <Link to="/cart" className="relative">
@@ -42,7 +58,11 @@ export function Navbar() {
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden relative p-2 text-gray-700 hover:text-primary-600"
           >
-            {isOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
+            {isOpen ? (
+              <XMarkIcon className="h-6 w-6" />
+            ) : (
+              <Bars3Icon className="h-6 w-6" />
+            )}
             {!isOpen && itemCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-secondary-500 text-gray-900 text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {itemCount}
@@ -100,5 +120,5 @@ export function Navbar() {
         </div>
       )}
     </nav>
-  )
+  );
 }

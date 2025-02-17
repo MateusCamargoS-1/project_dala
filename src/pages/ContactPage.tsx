@@ -22,7 +22,6 @@ export function ContactPage() {
       <h1 className="text-5xl font-bold text-center text-gray-900 mb-12">Entre em Contato</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Seção do WhatsApp */}
         <div className="bg-white shadow-lg rounded-lg p-8">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Atendimento via WhatsApp</h2>
           <p className="text-gray-600 mb-6">
@@ -39,7 +38,6 @@ export function ContactPage() {
           </a>
         </div>
 
-        {/* Formulário de contato */}
         <div className="bg-white shadow-lg rounded-lg p-8">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Envie uma Mensagem</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -77,8 +75,7 @@ export function ContactPage() {
           </form>
         </div>
       </div>
-
-      {/* Localização */}
+      
       <div className="bg-white shadow-lg rounded-lg p-8 mt-12">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
           <FaMapMarkerAlt className="mr-2 text-red-500" />

@@ -7,6 +7,5 @@ CREATE TABLE public.orders (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
--- Índice para busca rápida por status e data de criação
 CREATE INDEX idx_orders_status ON public.orders (status);
 CREATE INDEX idx_orders_created_at ON public.orders (created_at);

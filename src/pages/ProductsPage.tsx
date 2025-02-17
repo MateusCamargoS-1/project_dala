@@ -1,102 +1,123 @@
-import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
-import  useCartStore  from '../stores/cartStore'
-import type { Database } from '../lib/database.types'
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { supabase } from "../lib/supabase";
+import useCartStore from "../stores/cartStore";
+import type { Database } from "../lib/database.types";
 
-type Product = Database['public']['Tables']['products']['Row']
+type Product = Database["public"]["Tables"]["products"]["Row"];
 
 export function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchParams, setSearchParams] = useSearchParams()
-  const addItem = useCartStore((state) => state.addToCart)
-  
-  const category = searchParams.get('category')
-  const [selectedCategory, setSelectedCategory] = useState(category || 'all')
-  const [priceSort, setPriceSort] = useState<'asc' | 'desc' | null>(null)
-  const [showOnlyOnSale, setShowOnlyOnSale] = useState(false)
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const addItem = useCartStore((state) => state.addToCart);
 
-  const categories = ['Alimentos', 'Bebidas', 'Higiene', 'Limpeza']
+  const category = searchParams.get("category");
+  const [selectedCategory, setSelectedCategory] = useState(category || "all");
+  const [priceSort, setPriceSort] = useState<"asc" | "desc" | null>(null);
+  const [showOnlyOnSale, setShowOnlyOnSale] = useState(false);
+
+  const categories = [
+    "Açougue",
+    "Hortifruti",
+    "Padaria",
+    "Frios e Laticínios",
+    "Bebidas",
+    "Mercearia",
+    "Matinais",
+    "Doces e Sobremesas",
+    "Congelados",
+    "Higiene e Beleza",
+    "Limpeza",
+    "Pet Shop",
+    "Bazar e Utilidades",
+    "Bebês",
+    "Saudáveis e Naturais",
+    "Suplementos",
+  ];
 
   useEffect(() => {
-    loadProducts()
-  }, [selectedCategory, priceSort, showOnlyOnSale])
+    loadProducts();
+  }, [selectedCategory, priceSort, showOnlyOnSale]);
 
   async function loadProducts() {
-    setLoading(true)
-    let query = supabase.from('products').select('*')
-    console.log(query);
-    if (selectedCategory !== 'all') {
-      query = query.eq('category', selectedCategory)
+    setLoading(true);
+    let query = supabase.from("products").select("*");
+
+    if (selectedCategory !== "all") {
+      query = query.eq("category", selectedCategory);
     }
 
     if (showOnlyOnSale) {
-      query = query.eq('is_on_sale', true)
+      query = query.eq("is_on_sale", true);
     }
 
-    let { data, error } = await query
+    let { data, error } = await query;
 
     if (!error && data) {
       if (priceSort) {
         data = data.sort((a, b) => {
-          const priceA = a.is_on_sale && a.sale_price ? a.sale_price : a.price
-          const priceB = b.is_on_sale && b.sale_price ? b.sale_price : b.price
-          return priceSort === 'asc' ? priceA - priceB : priceB - priceA
-        })
+          const priceA = a.is_on_sale && a.sale_price ? a.sale_price : a.price;
+          const priceB = b.is_on_sale && b.sale_price ? b.sale_price : b.price;
+          return priceSort === "asc" ? priceA - priceB : priceB - priceA;
+        });
       }
-      setProducts(data)
+      setProducts(data);
     }
-    setLoading(false)
+    setLoading(false);
   }
 
   const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category)
-    if (category === 'all') {
-      searchParams.delete('category')
+    setSelectedCategory(category);
+    if (category === "all") {
+      searchParams.delete("category");
     } else {
-      searchParams.set('category', category)
+      searchParams.set("category", category);
     }
-    setSearchParams(searchParams)
-  }
+    setSearchParams(searchParams);
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-16">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-6">
-          {selectedCategory === 'all' ? 'Todos os Produtos' : selectedCategory}
+          {selectedCategory === "all" ? "Todos os Produtos" : selectedCategory}
         </h1>
 
-        <div className="flex flex-wrap gap-4 mb-6">
-          <button
-            onClick={() => handleCategoryChange('all')}
-            className={`px-4 py-2 rounded-md ${
-              selectedCategory === 'all'
-                ? 'bg-primary-600 text-white'
-                : 'bg-gray-100 hover:bg-gray-200'
-            }`}
-          >
-            Todos
-          </button>
-          {categories.map((cat) => (
+        <div className="overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 mb-6">
+          <div className="flex gap-4">
             <button
-              key={cat}
-              onClick={() => handleCategoryChange(cat)}
-              className={`px-4 py-2 rounded-md ${
-                selectedCategory === cat
-                  ? 'bg-primary-600 text-white'
-                  : 'bg-gray-100 hover:bg-gray-200'
+              onClick={() => handleCategoryChange("all")}
+              className={`px-4 py-2 rounded-md flex-shrink-0 ${
+                selectedCategory === "all"
+                  ? "bg-primary-600 text-white"
+                  : "bg-gray-100 hover:bg-gray-200"
               }`}
             >
-              {cat}
+              Todos
             </button>
-          ))}
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => handleCategoryChange(cat)}
+                className={`px-4 py-2 rounded-md flex-shrink-0 ${
+                  selectedCategory === cat
+                    ? "bg-primary-600 text-white"
+                    : "bg-gray-100 hover:bg-gray-200"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-4 mb-6">
           <select
-            value={priceSort || ''}
-            onChange={(e) => setPriceSort(e.target.value as 'asc' | 'desc' | null)}
+            value={priceSort || ""}
+            onChange={(e) =>
+              setPriceSort(e.target.value as "asc" | "desc" | null)
+            }
             className="px-4 py-2 rounded-md border border-gray-300"
           >
             <option value="">Ordenar por preço</option>
@@ -151,19 +172,22 @@ export function ProductsPage() {
                     )}
                   </div>
                   <button
-                    onClick={() => addItem({
-                      id: product.id,
-                      name: product.name,
-                      price: product.is_on_sale && product.sale_price
-                        ? product.sale_price
-                        : product.price,
-                      image_url: product.image_url,
-                      quantity: 1
-                    })}
+                    onClick={() =>
+                      addItem({
+                        id: product.id,
+                        name: product.name,
+                        price:
+                          product.is_on_sale && product.sale_price
+                            ? product.sale_price
+                            : product.price,
+                        image_url: product.image_url,
+                        quantity: 1,
+                      })
+                    }
                     className="btn-primary"
                     disabled={product.stock === 0}
                   >
-                    {product.stock === 0 ? 'Sem estoque' : 'Adicionar'}
+                    {product.stock === 0 ? "Sem estoque" : "Adicionar"}
                   </button>
                 </div>
               </div>
@@ -172,5 +196,5 @@ export function ProductsPage() {
         </div>
       )}
     </div>
-  )
+  );
 }

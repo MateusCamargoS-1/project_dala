@@ -25,7 +25,7 @@ const useCartStore = create<CartState>((set, get) => ({
     set((state) => {
       if (!product.id) {
         console.error("Erro: Produto sem ID não pode ser adicionado ao carrinho!", product);
-        return state; // Não adiciona o produto se ele não tem um ID válido
+        return state;
       }
   
       const existingItem = state.items.find((item) => item.id === product.id);
@@ -51,7 +51,7 @@ const useCartStore = create<CartState>((set, get) => ({
   updateQuantity: (id, quantity) => set((state) => ({
     items: quantity > 0
       ? state.items.map((item) => (item.id === id ? { ...item, quantity } : item))
-      : state.items.filter((item) => item.id !== id) // Remove se quantidade for 0
+      : state.items.filter((item) => item.id !== id)
   })),
   
 

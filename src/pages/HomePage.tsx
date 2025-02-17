@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import type { Database } from '../lib/database.types'
-import  useCartStore   from '../stores/cartStore'
+import useCartStore from '../stores/cartStore'
 
 type Product = Database['public']['Tables']['products']['Row']
 
@@ -32,7 +32,6 @@ export function HomePage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-16">
-      {/* Hero Section */}
       <div className="relative h-[500px] rounded-xl overflow-hidden mb-12">
         <img
           src="https://images.unsplash.com/photo-1542838132-92c53300491e"
@@ -57,23 +56,28 @@ export function HomePage() {
         </div>
       </div>
 
-      {/* Categories */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-6">Categorias</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {['Alimentos', 'Bebidas', 'Higiene', 'Limpeza'].map((category) => (
-            <Link
-              key={category}
-              to={`/products?category=${category}`}
-              className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow"
-            >
-              <h3 className="text-lg font-semibold">{category}</h3>
-            </Link>
-          ))}
+        <div className="overflow-x-auto scrollbar-hidden">
+          <div className="flex gap-4">
+            {[
+              'Açougue', 'Hortifruti', 'Padaria', 'Frios e Laticínios', 'Bebidas',
+              'Mercearia', 'Matinais', 'Doces e Sobremesas', 'Congelados', 'Higiene e Beleza',
+              'Limpeza', 'Pet Shop', 'Bazar e Utilidades', 'Bebês', 'Saudáveis e Naturais',
+              'Suplementos'
+            ].map((category) => (
+              <Link
+                key={category}
+                to={`/products?category=${category}`}
+                className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow whitespace-nowrap"
+              >
+                <h3 className="text-lg font-semibold">{category}</h3>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Sale Products (Promoções) */}
       <section>
         <h2 className="text-2xl font-bold mb-6">Produtos em Oferta</h2>
         {loading ? (
@@ -126,15 +130,14 @@ export function HomePage() {
         )}
       </section>
 
-      {/* Modal de Detalhes do Produto */}
       {selectedProduct && (
         <div
           className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50"
-          onClick={() => setSelectedProduct(null)} // Fecha ao clicar fora
+          onClick={() => setSelectedProduct(null)}
         >
           <div
             className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative"
-            onClick={(e) => e.stopPropagation()} // Impede o fechamento ao clicar no modal
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               className="absolute top-2 right-2 text-gray-600 text-xl"
@@ -171,8 +174,6 @@ export function HomePage() {
                 R$ {selectedProduct.price.toFixed(2)}
               </div>
             )}
-
-            {/* Seletor de quantidade e botão de adicionar ao carrinho */}
             <div className="mt-6 flex items-center justify-between">
               <div className="flex items-center">
                 <button
@@ -205,7 +206,7 @@ export function HomePage() {
                     image_url: selectedProduct.image_url,
                     quantity,
                   })
-                  setSelectedProduct(null) // Fecha o modal após adicionar ao carrinho
+                  setSelectedProduct(null) 
                 }}
               >
                 Adicionar ao Carrinho
